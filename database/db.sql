@@ -1,6 +1,6 @@
 -- Cria o banco de dados se não existir
-CREATE DATABASE IF NOT EXISTS BlogSite;
-USE BlogSite;
+CREATE DATABASE IF NOT EXISTS blog_site;
+USE blog_site;
 
 -- Cria a tabela Users se não existir
 CREATE TABLE IF NOT EXISTS Users (

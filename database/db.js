@@ -1,35 +1,36 @@
 import mysql from 'mysql2/promise';
+import mysqlConfig from './dbConfig.js';
 
 class Database {
-  // Construtor para injeção de dependências
   constructor(config) {
-    // Criação do pool de conexões usando a configuração fornecida
-    this.pool = mysql.createPool(config);
+    this.config = config;
+    this.connection = null;
   }
 
-  // Método para executar uma consulta
-  async query(sql, values = []) {
+  async connect() {
     try {
-      // Aguarda a resposta do pool e retorna os resultados
-      const [rows, fields] = await this.pool.query(sql, values);
+      this.connection = await mysql.createConnection(this.config);
+      console.log('Conexão com o MySQL efetuada com sucesso!');
+    } catch (error) {
+      console.error(`Erro ao conectar com o MySQL: ${error.stack}`);
+      throw error;
+    }
+  }
+
+  async query(sql, params = []) {
+    if (!this.connection) {
+      throw new Error('Conexão com o banco de dados não está estabelecida.');
+    }
+    try {
+      const [rows, fields] = await this.connection.execute(sql, params);
       return { rows, fields };
     } catch (error) {
-      // Captura e exibe qualquer erro que ocorra durante a consulta
-      console.error('Database query error:', error);
+      console.error(`Erro ao executar consulta: ${error.stack}`);
       throw error;
     }
   }
 }
 
-// Configuração do pool de conexões
-const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: '123',
-  database: 'blog-site',
-};
-
-// Instância da classe Database com a configuração fornecida
-const db = new Database(dbConfig);
+const db = new Database(mysqlConfig);
 
 export default db;
