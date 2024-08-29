@@ -1,0 +1,14 @@
+#Baixando a imagem oficial 
+#   sudo docker pull mysql:8.0 
+#       podendo especificar a versão ou não
+
+#Construir a imagem
+# 	sudo docker build -t minha-imagem-mysql .
+#       minha-imagem é o nome da imagem
+
+#Construir um contêiner do MySQL
+#   sudo docker run -d –name mysql-container -e MYSQL_ROOT_PASSWORD=senha -p 3306:3306 mysql:8.0 
+#       -d executa o container
+#       –name mysql-container define o nome do container
+#       -e MYSQL_ROOT_PASSWORD=senha define a senha
+#       -p 3306:3306 define a porta do container e do localhost
